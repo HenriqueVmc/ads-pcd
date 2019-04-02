@@ -13,7 +13,7 @@ public class LockBuffer implements Buffer{
 	@Override
 	public void set(int value) {
 		
-		mutex.lock();		
+		mutex.lock();
 		
 		try {
 			// Esperar Buffer esvaziar...

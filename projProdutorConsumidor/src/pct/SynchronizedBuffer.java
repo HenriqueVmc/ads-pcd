@@ -12,7 +12,7 @@ public class SynchronizedBuffer implements Buffer{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}		
+		}
 		
 		System.out.printf("Producer writes\t%2d", value);
 		buffer = value;
@@ -32,7 +32,7 @@ public class SynchronizedBuffer implements Buffer{
 			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}		
-		}	
+		}
 		
 		// Notifico quem está aguardando para produzir
 		// Poderia ser All neste caso
