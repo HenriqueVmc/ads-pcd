@@ -20,11 +20,11 @@ package pct;
 
 // Esteira -> Buffer
 //				- set Itens
-//				- get Itens 
+//				- get Itens
 //
 
 // Caixa -> Produtor (Thread)
-// 				- get Esteira 
+// 				- get Esteira
 //				- set Empacotamento
 //
 
