@@ -1,5 +1,7 @@
 package pct;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -7,25 +9,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ExecutorService application = Executors.newFixedThreadPool(2);
+        ExecutorService application = Executors.newFixedThreadPool(3);
+        SimpleDateFormat horas = new SimpleDateFormat("HH:mm:ss");        
+        Mercado mercadinho = new Mercado();
 
-        //
-        Buffer 
+        Buffer carrinho = new BufferCarrinhoCompras();
+        Buffer itens = new BufferItensMercado(mercadinho);
+        Buffer esteira = new BufferEsteira();
+        Buffer rampa = new BufferRampaItensCaixa();
 
-        System.out.println("Action\t\tValue\tProduced\tConsumed");
         System.out.println("------\t\t-----\t--------\t--------\n");
 
-        // try to start producer and consumer giving each of them access
-        // to sharedLocation
         try {
-            application.execute(new Producer(sharedLocation));
-            application.execute(new Consumer(sharedLocation));
+            application.execute(new Comprador(carrinho, itens, esteira));
+            application.execute(new Caixa(esteira, rampa));
+            application.execute(new EuSemFaculdade(rampa));
 
         } // end try
         catch (Exception exception) {
             exception.printStackTrace();
         } // end catch
-
-        application.shutdown(); // terminate application when threads end
+                        
+        application.shutdown(); // terminate application when threads end       
     }
 }

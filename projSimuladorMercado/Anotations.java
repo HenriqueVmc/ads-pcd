@@ -45,7 +45,7 @@ package pct;
 // Comprador/Carrinho -> setEsteira(Itens)
 // Caixa -> getEsteira
 // Caixa -> setRampa(Itens)
-// -- Valor Total --
+// --- Valor Total ---
 // Empacotador -> getRampa
 // Empacotador -> setSacola
 

@@ -3,16 +3,59 @@
  */
 package pct;
 
-public class BufferEsteira implements Buffer{
+import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class BufferEsteira implements Buffer {
+
+    ArrayList<ItensMercado> itensEsteira = null;
+    ReentrantLock mutex = new ReentrantLock();
+    Condition canGet = mutex.newCondition();
+
+    public BufferEsteira() {
+        itensEsteira = new ArrayList<ItensMercado>();
+    }
 
     @Override
     public void set(ItensMercado item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        mutex.lock();
+        
+        try {
+            itensEsteira.add(item);
+            canGet.signal();
+        } finally {
+            mutex.unlock();
+        }
     }
 
     @Override
-    public ItensMercado get() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ItensMercado get(int cod) {
+
+        mutex.lock();
+
+        try {
+            // Esperar Buffer encher...
+            while (itensEsteira.size() == 0) {
+                try {
+                    canGet.await();
+                } catch (InterruptedException e) {
+                }
+            }
+
+        } finally {
+            mutex.unlock();
+        }
+        
+        if(cod > itensEsteira.size())
+            cod = itensEsteira.size() -1;
+        
+        return itensEsteira.get(cod);
     }
-    
+
+    @Override
+    public ArrayList<ItensMercado> getAll() {
+        return itensEsteira;
+    }
 }

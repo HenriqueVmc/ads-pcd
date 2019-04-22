@@ -1,6 +1,6 @@
 package pct;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Buffer {
 
@@ -8,5 +8,5 @@ public interface Buffer {
 
     public ItensMercado get(int cod);
     
-    public List<ItensMercado> getAll(int cod);
+    public ArrayList<ItensMercado> getAll();
 }

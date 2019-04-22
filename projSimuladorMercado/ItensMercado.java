@@ -5,7 +5,6 @@ public class ItensMercado {
     private String Nome;
     private double Valor;
     private String Descricao;
-    private int Quantidade;
     
     public String getNome() {
         return Nome;
@@ -28,10 +27,10 @@ public class ItensMercado {
         this.Descricao = Descricao;
     }
 
-    public int getQuantidade() {
-        return Quantidade;
-    }
-    public void setQuantidade(int Quantidade) {
-        this.Quantidade = Quantidade;
-    }
+//    public int getQuantidade() {
+//        return Quantidade;
+//    }
+//    public void setQuantidade(int Quantidade) {
+//        this.Quantidade += Quantidade;
+//    }
 }

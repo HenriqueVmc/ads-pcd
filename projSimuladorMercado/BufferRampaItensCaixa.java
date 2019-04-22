@@ -3,23 +3,59 @@
  */
 package pct;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class BufferRampaItensCaixa implements Buffer{
 
+    ArrayList<ItensMercado> itensRampa = null;
+    ReentrantLock mutex = new ReentrantLock();
+    Condition canGet = mutex.newCondition();
+    
+    public BufferRampaItensCaixa(){
+        itensRampa = new ArrayList<ItensMercado>();
+    }
+    
     @Override
     public void set(ItensMercado item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        mutex.lock();
+        
+        try {
+            itensRampa.add(item);
+            canGet.signal();
+        } finally {
+            mutex.unlock();
+        }    
     }
 
     @Override
     public ItensMercado get(int cod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        mutex.lock();
+        
+        try {
+            // Esperar Buffer encher...
+            while (itensRampa.size() <= 1) {
+                try {
+                    canGet.await();
+                } catch (InterruptedException e) {
+                }
+            }
+
+        } finally {
+            mutex.unlock();
+        }
+        
+        if(cod > itensRampa.size())
+            cod = itensRampa.size() -1;
+        
+        return itensRampa.get(cod);
     }
 
     @Override
-    public List<ItensMercado> getAll(int cod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<ItensMercado> getAll() {
+        return itensRampa;
     }
 
 }
