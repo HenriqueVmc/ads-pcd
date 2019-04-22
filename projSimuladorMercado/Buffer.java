@@ -8,5 +8,7 @@ public interface Buffer {
 
     public ItensMercado get(int cod);
     
+    public ItensMercado getRandom();
+    
     public ArrayList<ItensMercado> getAll();
 }

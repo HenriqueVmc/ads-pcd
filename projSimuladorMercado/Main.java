@@ -1,7 +1,6 @@
 package pct;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,7 +17,7 @@ public class Main {
         Buffer esteira = new BufferEsteira();
         Buffer rampa = new BufferRampaItensCaixa();
 
-        System.out.println("------\t\t-----\t--------\t--------\n");
+        System.out.println("\n--- Iniciando ---\n");
 
         try {
             application.execute(new Comprador(carrinho, itens, esteira));

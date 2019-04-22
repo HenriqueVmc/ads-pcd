@@ -116,9 +116,9 @@ public class Mercado {
         item10.setValor(3.50);
         //item10.setQuantidade(67);
         
-        itemEsgotado.setNome("Item Esgotado!");
-        itemEsgotado.setDescricao("...");
-        itemEsgotado.setValor(0);
+        //itemEsgotado.setNome("Item Esgotado!");
+        //itemEsgotado.setDescricao("...");
+        //itemEsgotado.setValor(0);
         //itemEsgotado.setQuantidade(0);
         
         addProduto(item1);
@@ -132,6 +132,6 @@ public class Mercado {
         addProduto(item9);
         addProduto(item10);  
         
-        addProduto(itemEsgotado);  
+        //addProduto(itemEsgotado);  
     }
 }

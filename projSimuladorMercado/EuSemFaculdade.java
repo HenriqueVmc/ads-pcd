@@ -24,19 +24,19 @@ public class EuSemFaculdade implements Runnable {
             for (int i = 0; i < 10; i++) {
                 Thread.sleep(generator.nextInt(3000)); 
                 
-                ItensMercado item = rampa.get(i);
-                sacola.setCompra(rampa.get(i));
+                ItensMercado item = rampa.getRandom();
+                sacola.setCompra(item);
                 
                 dataFormatada = horas.format(Calendar.getInstance().getTime());
-                System.out.println("Eu sem Facul: [" + dataFormatada + "] Passando item " + item.getNome() + "");                
+                System.out.println("Eu sem Facul: [" + dataFormatada + "] Acomodando item " + item.getNome() + " na sacola");                
             }
 
         } catch (InterruptedException exception) {
             exception.printStackTrace();
         }
 
-        System.out.printf("\n");
+        System.out.printf("\n--- Fim do empacotamento ---\n");
         String dataFormatada = horas.format(Calendar.getInstance().getTime());        
-        System.out.println("Fim da simulação: [" + dataFormatada + "]");
+        System.out.println("\nFim da simulação: [" + dataFormatada + "]");
     }
 }

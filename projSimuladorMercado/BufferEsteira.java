@@ -4,6 +4,7 @@
 package pct;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,6 +13,7 @@ public class BufferEsteira implements Buffer {
     ArrayList<ItensMercado> itensEsteira = null;
     ReentrantLock mutex = new ReentrantLock();
     Condition canGet = mutex.newCondition();
+    ItensMercado itemTemp;
 
     public BufferEsteira() {
         itensEsteira = new ArrayList<ItensMercado>();
@@ -51,11 +53,39 @@ public class BufferEsteira implements Buffer {
         if(cod > itensEsteira.size())
             cod = itensEsteira.size() -1;
         
-        return itensEsteira.get(cod);
+        itemTemp = itensEsteira.get(cod);
+        itensEsteira.remove(cod);
+        
+        return itemTemp;
     }
 
     @Override
     public ArrayList<ItensMercado> getAll() {
         return itensEsteira;
+    }
+    
+    @Override
+    public ItensMercado getRandom() {
+        mutex.lock();
+
+        try {
+            // Esperar Buffer encher...
+            while (itensEsteira.size() == 0) {
+                try {
+                    canGet.await();
+                } catch (InterruptedException e) {
+                }
+            }
+
+        } finally {
+            mutex.unlock();
+        }
+
+        int cod = new Random().nextInt(itensEsteira.size());
+
+        itemTemp = itensEsteira.get(cod);
+        itensEsteira.remove(cod);
+
+        return itemTemp;
     }
 }

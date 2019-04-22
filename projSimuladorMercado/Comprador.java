@@ -3,7 +3,6 @@ package pct;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
-import javax.xml.crypto.Data;
 
 public class Comprador implements Runnable {
 
@@ -31,7 +30,7 @@ public class Comprador implements Runnable {
             for (int i = 0; i < 10; i++) {
                 Thread.sleep(generator.nextInt(1000));
                 // Pegar Itens
-                ItensMercado item = itens.get(i);
+                ItensMercado item = itens.getRandom();
                 meusItens.add(item);
                 
                 // Colocar no carrinho
@@ -45,7 +44,7 @@ public class Comprador implements Runnable {
             
             for (int i = 0; i < 10; i++) {
                 // Inserir itens na esteira
-                ItensMercado item = carrinho.get(i);
+                ItensMercado item = carrinho.getRandom();
                 esteira.set(item);
                 
                 dataFormatada = horas.format(Calendar.getInstance().getTime());
@@ -57,6 +56,6 @@ public class Comprador implements Runnable {
             exception.printStackTrace();
         }
 
-        System.out.printf("\n");
+        System.out.printf("\n--- Fim do comprador ---\n");
     }
 }

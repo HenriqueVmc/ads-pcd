@@ -28,7 +28,7 @@ public class Caixa implements Runnable {
                 Thread.sleep(generator.nextInt(3000));
 
                 // Pegar Itens da esteira                
-                item = esteira.get(i);
+                item = esteira.getRandom();
 
                 dataFormatada = horas.format(Calendar.getInstance().getTime());
                 System.out.println("Caixa: [" + dataFormatada + "] Passando item " + item.getNome() + "");
@@ -48,6 +48,6 @@ public class Caixa implements Runnable {
             exception.printStackTrace();
         }
 
-        System.out.printf("\n");
+        System.out.printf("\n--- Fim do caixa ---\n");
     }
 }
