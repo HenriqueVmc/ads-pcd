@@ -13,22 +13,26 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author henrique
  */
-public class MensagensJogosBuffer implements Buffer {
+public class ChatBuffer implements Buffer{
+
 
     ArrayList<String> mensagens = null;
+    ArrayList<String> mensagensSender = null;
     ReentrantLock mutex = new ReentrantLock();
     Condition canGet = mutex.newCondition();
 
-    public MensagensJogosBuffer() {
+    public ChatBuffer() {
         mensagens = new ArrayList<String>();
-    }
-
+        mensagensSender = new ArrayList<String>();
+    }    
+    
     public void set(String msg) {
 
         mutex.lock();
 
         try {
             mensagens.add(msg);
+            mensagensSender.add(msg);
             canGet.signal();
         } finally {
             mutex.unlock();
@@ -44,8 +48,8 @@ public class MensagensJogosBuffer implements Buffer {
             while (mensagens.size() == 0) {
                 try {
                     canGet.await();
-                } catch (InterruptedException e) {
                 }
+                catch (InterruptedException e) {}
             }
 
         } finally {

@@ -5,7 +5,6 @@ package projchatgui;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -14,22 +13,22 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author henrique
  */
-public class MensagensFutebolBuffer implements Buffer{
+public class MensagensFutebolBuffer implements Buffer {
 
-    ArrayList<String> mensagens = null;
+    ArrayList<String> mensagens = null;    
     ReentrantLock mutex = new ReentrantLock();
     Condition canGet = mutex.newCondition();
 
     public MensagensFutebolBuffer() {
-        mensagens = new ArrayList<String>();
-    }    
-    
+        mensagens = new ArrayList<String>();        
+    }
+
     public void set(String msg) {
 
         mutex.lock();
 
         try {
-            mensagens.add(msg);
+            mensagens.add(msg);            
             canGet.signal();
         } finally {
             mutex.unlock();
@@ -45,8 +44,8 @@ public class MensagensFutebolBuffer implements Buffer{
             while (mensagens.size() == 0) {
                 try {
                     canGet.await();
+                } catch (InterruptedException e) {
                 }
-                catch (InterruptedException e) {}
             }
 
         } finally {
@@ -59,5 +58,4 @@ public class MensagensFutebolBuffer implements Buffer{
 
         return msgTemp;
     }
-
 }

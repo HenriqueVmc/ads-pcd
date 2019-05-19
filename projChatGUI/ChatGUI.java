@@ -5,6 +5,9 @@
  */
 package projchatgui;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,17 +24,20 @@ public class ChatGUI extends javax.swing.JFrame implements Runnable {
     String chatJogos = "";
 
     public static int salaSelecionada = JOGOS;
-    MensagensJogosBuffer mensagensJogos;
-    MensagensFutebolBuffer mensagensFutebol;
+    MensagensJogosBuffer sendMensagensJogos;
+    MensagensFutebolBuffer sendMensagensFutebol;
+    ChatBuffer mensagensChat;
 
     /**
      * Creates new form ChatGUI
      */
-    public ChatGUI(MensagensJogosBuffer mensagensJogos, MensagensFutebolBuffer mensagensFutebol) {
-        this.mensagensJogos = mensagensJogos;
-        this.mensagensFutebol = mensagensFutebol;
+    public ChatGUI(MensagensJogosBuffer mensagensJogos, MensagensFutebolBuffer mensagensFutebol, ChatBuffer mensagens) {
+        this.sendMensagensJogos = mensagensJogos;
+        this.sendMensagensFutebol = mensagensFutebol;
+        this.mensagensChat = mensagens;
         initComponents();
         iniciarTela();
+        setVisible(true);       
     }
 
     /**
@@ -162,26 +168,34 @@ public class ChatGUI extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        // TODO add your handling code here:
-        String txt = txtEnviar.getText();
+        // TODO add your handling code here:        
+
+        SimpleDateFormat formatHoras = new SimpleDateFormat("HH:mm");
+        Date data = Calendar.getInstance().getTime();
+        String horaFormatada = formatHoras.format(data);
+
+        String msg = txtUsuario.getText() + " - [" + horaFormatada + "] \n"
+                + "  : " + txtEnviar.getText() + "\n";
 
         if (salaSelecionada == JOGOS) {
-            mensagensJogos.set(txt);
+            sendMensagensJogos.set(msg);
         } else if (salaSelecionada == FUTEBOL) {
-            mensagensFutebol.set(txt);
+            sendMensagensFutebol.set(msg);
         }
+
 
     }//GEN-LAST:event_btnEnviarActionPerformed
     private void cbSalasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSalasActionPerformed
         // TODO add your handling code here:        
         salaSelecionada = cbSalas.getSelectedIndex();
 
+        txtMensagens.setText("");
+
         if (salaSelecionada == JOGOS) {
             txtMensagens.setText(chatJogos);
         } else if (salaSelecionada == FUTEBOL) {
             txtMensagens.setText(chatFutebol);
         }
-        
     }//GEN-LAST:event_cbSalasActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -218,8 +232,7 @@ public class ChatGUI extends javax.swing.JFrame implements Runnable {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ChatGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>        
-        setVisible(true);
+        //</editor-fold>                
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -237,26 +250,25 @@ public class ChatGUI extends javax.swing.JFrame implements Runnable {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void run() {        
+    public void run() {       
+        
+        while (true) {
 
-        while (true) {       
-            
-            if(salaSelecionada == JOGOS){
-                String mensagemJogos = mensagensJogos.get();
+            String mensagem = mensagensChat.get();
 
-                if (mensagemJogos.length() > 0) {
-                    chatJogos += mensagemJogos + "\n";
+            if (salaSelecionada == JOGOS) {
+
+                if (mensagem.length() > 0) {
+                    chatJogos += mensagem + "\n";
                     txtMensagens.setText(chatJogos);
-                }
+                }                
             }
-            
-            else if(salaSelecionada == FUTEBOL){
-                String mensagemFutebol = mensagensFutebol.get();
+            else if (salaSelecionada == FUTEBOL) {
 
-                if (mensagemFutebol.length() > 0) {
-                    chatFutebol += mensagemFutebol + "\n";
+                if (mensagem.length() > 0) {
+                    chatFutebol += mensagem + "\n";
                     txtMensagens.setText(chatFutebol);
-                }                       
+                }
             }
         }
     }

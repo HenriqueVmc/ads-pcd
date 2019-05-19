@@ -23,27 +23,30 @@ public class ProjChatGUI {
      */
     public static void main(String[] args) {
         try {
-            
-            MensagensJogosBuffer mensagensJogos = new MensagensJogosBuffer();
-            MensagensFutebolBuffer mensagensFutebol = new MensagensFutebolBuffer();
+
+            MensagensJogosBuffer sendMensagensJogos = new MensagensJogosBuffer();
+            MensagensFutebolBuffer sendMensagensFutebol = new MensagensFutebolBuffer();
+            ChatBuffer mensagensChat = new ChatBuffer();                        
+
+            int porta = 5000;
+            String groupJogos = "230.0.0.0"; // Sala para Jogos
+            String groupFutebol = "231.1.1.1"; // Sala para 
+
+            MulticastSocket socketJogos = new MulticastSocket(porta);
+            MulticastSocket socketFutebol = new MulticastSocket(porta);           
 
             ExecutorService application = Executors.newFixedThreadPool(5);
-
-            int porta = 5000;MulticastSocket s2 = new MulticastSocket(porta);
-            String groupJogos = "230.0.0.0";
-            String groupFutebol = "231.1.1.1";
             
-            MulticastSocket s = new MulticastSocket(porta);            
-
-            System.out.println("\n--- Iniciando ---\n");
-
+            System.out.println("\n--- Log do Chat ---\n");
             try {
-                application.execute(new ChatGUI(mensagensJogos, mensagensFutebol));
-                
-                application.execute(new Receiver(s, mensagensJogos, groupJogos));
-                application.execute(new Receiver(s, mensagensFutebol, groupFutebol));
-                application.execute(new Sender(s, mensagensJogos, groupJogos));                                         
-                application.execute(new Sender(s, mensagensFutebol, groupFutebol));                                
+
+                application.execute(new ChatGUI(sendMensagensJogos, sendMensagensFutebol, mensagensChat));
+
+                application.execute(new Receiver(socketJogos, mensagensChat, groupJogos));
+                application.execute(new Sender(socketJogos, sendMensagensJogos, groupJogos));
+
+                application.execute(new Receiver(socketFutebol, mensagensChat, groupFutebol));
+                application.execute(new Sender(socketFutebol, sendMensagensFutebol, groupFutebol));
 
             } // end try
             catch (Exception exception) {

@@ -9,11 +9,11 @@ public class Receiver implements Runnable {
     MulticastSocket socket;
     String group;
 
-    Buffer mensagens;
+    Buffer mensagensChat;
 
-    public Receiver(MulticastSocket socket, Buffer mensagens, String group) {
+    public Receiver(MulticastSocket socket, Buffer mensagensChat, String group) {
         this.socket = socket;
-        this.mensagens = mensagens;
+        this.mensagensChat = mensagensChat;
         this.group = group;
     }
 
@@ -31,16 +31,16 @@ public class Receiver implements Runnable {
 
                 String IP = pack.getAddress().toString();
                 int porta = pack.getPort();
-                
+
                 String msg = new String(pack.getData(), pack.getOffset(), pack.getLength());
-                
+
                 //Log:
                 System.out.println("\nGrupo: " + group + " | End.: " + IP + ":" + porta + " | Msg.: " + msg);
 
-                mensagens.set(msg);
+                mensagensChat.set(msg);
 
                 socket.leaveGroup(InetAddress.getByName(group));
-                                
+
             } catch (Exception w) {
                 socket.close();
             }
