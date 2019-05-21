@@ -9,7 +9,7 @@ public class Client {
 	
 	public static void main(String[] args) {	
 
-		String op = ";";
+		String op = "x";
 		
 		try {
 
@@ -43,7 +43,7 @@ public class Client {
 
 				System.out.println("Resultado: " + result);
 			
-			}while(op != ";");
+			}while(!op.toLowerCase().equals("x"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,7 +51,7 @@ public class Client {
 	}
 
 	private static String BuscarOperacao() {
-		System.out.println("\nDigite a operação [+],[-],[*],[/] ou [; - para sair]: ");		
+		System.out.println("\nDigite a operação [+],[-],[*],[/] ou [x - para sair]: ");		
 		return in.next();
 	}
 
