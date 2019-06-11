@@ -42,9 +42,6 @@ public class Receiver implements Runnable {
 				// Log:
 				System.out.println("\nGrupo: " + group + " | End.: " + IP + ":" + porta + " | Msg.: " + msg);
 
-				// mensagensChat.set(msg);
-				//
-
 				application.execute(new TradutorService(msg, cacheTraducoes));
 
 				socket.leaveGroup(InetAddress.getByName(group));
