@@ -1,0 +1,20 @@
+O que foi desenvolvido:
+
+1- Um servidor para atender as requisições, para cada request um sockets excutando em paralelo
+	- Definido pool estático de threads para operação acima.
+    - Utilizado protoco TCP de Comunicação, manipulando mensagens com Streams.    
+	
+2- Cache/Buffer para traduções recentes (recurso compartilhado)
+	- Quando a requisição não for como existe em cache, consultamos a base e em seguida o buffer é atualizado
+
+3- Utilizado as bibliotecas do JWKTL e BerkeleyDB para criação de Base de dados chave/valor com informaçõs importadas de XML
+    - JWKTL utilizado para manipuar os dados.
+
+4- Interface Swing simples para Cliente solicitar o serviço implementado.
+
+Necessário para execução:
+
+É NECESSáRIO DESCOMPACTAR ARQUIVO dewiktionary.xml.bz2 e RENOMER PARA dewiktionary.xml
+RODAR O ARQUIVO TestImportWiktionary PARA IMPORTAÇÃO DE XML COM TRADUÇÕES.
+ALÉM DAS DEPENDENCIAS: dkpro-jwktl-1.1.0.jar e je-7.5.11.jar para manipulação dos dados,
+que estam na pasta jars.
